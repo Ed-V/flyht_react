@@ -132,6 +132,12 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-decorators"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.6.0"
   }
 }
