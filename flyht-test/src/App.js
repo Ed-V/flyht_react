@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import StudentManager from "./components/StudentManager/StudentManager";
 import { Provider } from "mobx-react";
