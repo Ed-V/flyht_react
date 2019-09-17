@@ -14,14 +14,14 @@ setStudents(value){
 setStudentStatus(id, value){
     this.students.find(function(student) {
         return student._id === id;
-    }).status[0] = value;
+    }).status = value;
 
 }
 
 @computed get activeStudents(){
     let activeStudents = this.students.filter(function(student){
 
-        return student.status[0] === "active";
+        return student.status === "active";
     })
     return activeStudents;
 }
@@ -29,7 +29,7 @@ setStudentStatus(id, value){
 @computed get delStudents(){
     let delStudents = this.students.filter(function(student){
 
-        return student.status[0] === "delinquent";
+        return student.status === "delinquent";
     })
 
     return delStudents;
@@ -38,7 +38,7 @@ setStudentStatus(id, value){
 @computed get dropStudents(){
     let dropStudents = this.students.filter(function(student){
 
-        return student.status[0] === "dropped";
+        return student.status === "dropped";
     })
 
     return dropStudents;

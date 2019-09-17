@@ -18,6 +18,16 @@ class StudentManager extends React.Component {
     this.fetchStudents();
   }
 
+  updateStudent(id, value){
+    Axios.put("students/"+id, value)
+        .then(response => {
+        })
+        .catch(error => {
+          alert("An error occured, see console for more details");
+          console.log(error);
+        });
+  }
+
   fetchStudents() {
     Axios.get("students", {
       params: {
@@ -26,7 +36,6 @@ class StudentManager extends React.Component {
     })
       .then(response => {
         this.props.StudentStore.setStudents(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         alert("An error occured, see console for more details");
@@ -56,7 +65,7 @@ class StudentManager extends React.Component {
 
     return (
       <Container>
-        <DisplayList></DisplayList>
+        <DisplayList updateStudent={this.updateStudent}></DisplayList>
         <Pagination
           studentTotal={this.state.studentTotal}
           limit={this.state.limit}
