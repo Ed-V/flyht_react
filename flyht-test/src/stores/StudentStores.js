@@ -1,50 +1,49 @@
-import {observable, computed, action} from "mobx"
+import { observable, computed, action } from "mobx";
+import { computedFn } from "mobx-utils";
 
-class StudentStore{
+class StudentStore {
+  @observable students = [];
 
-@observable students = [];
-
-
-@action.bound
-setStudents(value){
+  @action.bound
+  setStudents(value) {
     this.students = value;
-}
+  }
 
-@action.bound
-setStudentStatus(id, value){
+  @action.bound
+  setStudentStatus(id, value) {
     this.students.find(function(student) {
-        return student._id === id;
+      return student._id === id;
     }).status = value;
+  }
 
-}
+  student = computedFn(function getStudent(id) {
+    return this.students.find(function(student) {
+      return student._id === id;
+    });
+  });
 
-@computed get activeStudents(){
-    let activeStudents = this.students.filter(function(student){
-
-        return student.status === "active";
-    })
+  @computed get activeStudents() {
+    let activeStudents = this.students.filter(function(student) {
+      return student.status === "active";
+    });
     return activeStudents;
-}
+  }
 
-@computed get delStudents(){
-    let delStudents = this.students.filter(function(student){
-
-        return student.status === "delinquent";
-    })
+  @computed get delStudents() {
+    let delStudents = this.students.filter(function(student) {
+      return student.status === "delinquent";
+    });
 
     return delStudents;
-}
+  }
 
-@computed get dropStudents(){
-    let dropStudents = this.students.filter(function(student){
-
-        return student.status === "dropped";
-    })
+  @computed get dropStudents() {
+    let dropStudents = this.students.filter(function(student) {
+      return student.status === "dropped";
+    });
 
     return dropStudents;
-}
-
-
+  }
 }
 
 const store = new StudentStore();

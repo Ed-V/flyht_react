@@ -6,6 +6,12 @@ import Aux from "../../../hoc/Auxiliary";
 import Container from "react-bootstrap/Container";
 
 const studentCard = props => {
+
+
+const handleShowUpdate = () => {
+    props.showUpdateModal(props.cid)
+}
+
   return (
     <Aux>
       <Draggable id={props.cid} type="card" data={props.cid}>
@@ -38,7 +44,7 @@ const studentCard = props => {
                     <br />
                     {props.phone}
                   </Card.Text>
-                  <Button variant="success">Edit</Button>
+                  <Button variant="success" onClick={handleShowUpdate}>Edit</Button>
                   <Button variant="danger">Delete</Button>
                 </Card.Body>
               </Card>
