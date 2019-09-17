@@ -1,8 +1,12 @@
 import React from "react";
 import Axios from "../../utils/AxiosWrap";
 import Pagination from "../Pagination/Pagination";
+import DisplayList from "../DisplayList/Displaylist";
 import Container from "react-bootstrap/Container";
+import { inject, observer } from "mobx-react";
 
+@inject("StudentStore")
+@observer
 class StudentManager extends React.Component {
   constructor(props) {
     super(props);
@@ -11,6 +15,24 @@ class StudentManager extends React.Component {
 
   componentDidMount() {
     this.fetchTotalStudents();
+    this.fetchStudents();
+  }
+
+  fetchStudents() {
+    Axios.get("students", {
+      params: {
+        max: this.state.limit
+      }
+    })
+      .then(response => {
+        console.log(response);
+        this.props.StudentStore.setStudents(response.data);
+        console.log(this.props.StudentStore.students);
+      })
+      .catch(error => {
+        alert("An error occured, see console for more details");
+        console.log(error);
+      });
   }
 
   fetchTotalStudents() {
@@ -25,15 +47,18 @@ class StudentManager extends React.Component {
       });
   }
 
-  paginationButtonClickHandler = (event) => {
+  paginationButtonClickHandler = event => {
     let buttonIndex = event.target.dataset.bindex;
     //console.log(this);
-    this.setState({ selectedButton:  buttonIndex});
-  }
+    this.setState({ selectedButton: buttonIndex });
+  };
 
   render() {
+    const { StudentStore } = this.props;
+
     return (
       <Container>
+        <DisplayList></DisplayList>
         <Pagination
           studentTotal={this.state.studentTotal}
           limit={this.state.limit}

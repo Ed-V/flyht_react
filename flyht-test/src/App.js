@@ -1,14 +1,19 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import StudentManager from "./components/StudentManager/StudentManager";
+import { Provider } from "mobx-react";
+import StudentStore from './stores/StudentStores'
 
-function App() {
-  return (
+const Root = (
+  <Provider StudentStore={StudentStore}>
     <div className="App">
       <StudentManager></StudentManager>
     </div>
-  );
+  </Provider>
+);
+
+function App() {
+  return Root;
 }
 
 export default App;

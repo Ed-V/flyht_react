@@ -16,7 +16,7 @@ function genButtons(props){
 let result=[];
 for (let index = 1; index <= calcTotals(props); index++) {
 
-if(props.selectedButton == index){
+if(props.selectedButton === index){
     result.push(<Button variant="secondary" key={index} data-bindex={index} onClick={props.paginationButtonClickHandler}>{index}</Button>);
 } else {
     result.push(<Button variant="primary" key={index} data-bindex={index} onClick={props.paginationButtonClickHandler}>{index}</Button>);
