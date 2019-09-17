@@ -20,7 +20,8 @@ class DisplayList extends React.Component {
       updateLastName: "",
       updateStudentId: 0,
       updatePhone: 0,
-      updateStatus: "active"
+      updateStatus: "active",
+      updateDbId: ""
     };
   }
 
@@ -33,6 +34,10 @@ class DisplayList extends React.Component {
     });
   };
 
+  handleSaveChange = () => {
+
+  }
+
   handleShowUpdateModel = userId => {
     let student = this.props.StudentStore.student(userId);
     console.log(student);
@@ -41,10 +46,10 @@ class DisplayList extends React.Component {
       updateLastName: student.LastName,
       updateStudentId: student.StudentId,
       updatePhone: student.Phone,
-      updateStatus: student.status
+      updateStatus: student.status,
+      updateDbId: student._id
     });
 
-    console.log(student.status);
 
     this.setState({ showUpdateModal: true });
   };
@@ -54,16 +59,15 @@ class DisplayList extends React.Component {
   };
 
   handleCardDropActive = data => {
-    this.props.StudentStore.setStudentStatus(data, "active");
     this.props.updateStudent(data, { status: "active" });
   };
 
   handleCardDropDel = data => {
-    this.props.StudentStore.setStudentStatus(data, "delinquent");
+    this.props.updateStudent(data, { status: "delinquent" });
   };
 
   handleCardDropDropped = data => {
-    this.props.StudentStore.setStudentStatus(data, "dropped");
+    this.props.updateStudent(data, { status: "dropped" });
   };
 
   render() {

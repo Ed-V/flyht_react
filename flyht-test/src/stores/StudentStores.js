@@ -16,6 +16,20 @@ class StudentStore {
     }).status = value;
   }
 
+  @action.bound
+  updateStudent(id, value){
+    let toUpdate = this.students.find(function(student) {
+        return student._id === id;
+      });
+
+
+      toUpdate.StudentId = value.StudentId;
+      toUpdate.FirstName = value.FirstName;
+      toUpdate.LastName = value.LastName;
+      toUpdate.Phone = value.Phone;
+      toUpdate.status = value.status;
+  }
+
   student = computedFn(function getStudent(id) {
     return this.students.find(function(student) {
       return student._id === id;

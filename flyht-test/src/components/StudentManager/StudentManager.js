@@ -18,9 +18,11 @@ class StudentManager extends React.Component {
     this.fetchStudents();
   }
 
-  updateStudent(id, value){
+  updateStudent = (id, value) => {
+      let reactThis = this;
     Axios.put("students/"+id, value)
         .then(response => {
+            reactThis.props.StudentStore.updateStudent(id, response.data);
         })
         .catch(error => {
           alert("An error occured, see console for more details");
