@@ -1,10 +1,11 @@
 import React from "react";
 import Axios from "../../utils/AxiosWrap";
 import Pagination from "../Pagination/Pagination";
+import DisplayList from "../DisplayList/Displaylist";
 import Container from "react-bootstrap/Container";
-import {inject, observer} from 'mobx-react'
+import { inject, observer } from "mobx-react";
 
-@inject('StudentStore')
+@inject("StudentStore")
 @observer
 class StudentManager extends React.Component {
   constructor(props) {
@@ -12,27 +13,27 @@ class StudentManager extends React.Component {
     this.state = { studentTotal: 0, limit: 10, selectedButton: 1 };
   }
 
-
   componentDidMount() {
     this.fetchTotalStudents();
     this.fetchStudents();
   }
 
-
-fetchStudents(){
-    Axios.get("students", {params: {
+  fetchStudents() {
+    Axios.get("students", {
+      params: {
         max: this.state.limit
-    }})
-    .then(response => {
-      console.log(response);
-      this.props.StudentStore.setStudents(response.data);
-      console.log(this.props.StudentStore.students);
+      }
     })
-    .catch(error => {
-      alert("An error occured, see console for more details");
-      console.log(error);
-    });
-}
+      .then(response => {
+        console.log(response);
+        this.props.StudentStore.setStudents(response.data);
+        console.log(this.props.StudentStore.students);
+      })
+      .catch(error => {
+        alert("An error occured, see console for more details");
+        console.log(error);
+      });
+  }
 
   fetchTotalStudents() {
     Axios.get("students?totals=true&count=true")
@@ -46,19 +47,18 @@ fetchStudents(){
       });
   }
 
-  paginationButtonClickHandler = (event) => {
+  paginationButtonClickHandler = event => {
     let buttonIndex = event.target.dataset.bindex;
     //console.log(this);
-    this.setState({ selectedButton:  buttonIndex});
-  }
+    this.setState({ selectedButton: buttonIndex });
+  };
 
   render() {
-
-    const {StudentStore} = this.props;
-
+    const { StudentStore } = this.props;
 
     return (
       <Container>
+        <DisplayList></DisplayList>
         <Pagination
           studentTotal={this.state.studentTotal}
           limit={this.state.limit}
