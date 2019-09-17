@@ -25,9 +25,8 @@ class StudentManager extends React.Component {
       }
     })
       .then(response => {
-        console.log(response);
         this.props.StudentStore.setStudents(response.data);
-        console.log(this.props.StudentStore.students);
+        console.log(response.data);
       })
       .catch(error => {
         alert("An error occured, see console for more details");
@@ -38,7 +37,6 @@ class StudentManager extends React.Component {
   fetchTotalStudents() {
     Axios.get("students?totals=true&count=true")
       .then(response => {
-        console.log(response);
         this.setState({ studentTotal: response.data.totals.count });
       })
       .catch(error => {
