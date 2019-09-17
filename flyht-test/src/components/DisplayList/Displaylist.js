@@ -4,46 +4,98 @@ import StudentCard from "./StudentCard/StudentCard";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Aux from "../../hoc/Auxiliary";
+import { inject, observer } from "mobx-react";
+import styles from "./DisplayListStyles.module.css";
 
+@inject("StudentStore")
+@observer
 class DisplayList extends React.Component {
   constructor(props) {
     super(props);
-
-    this.activeGroup = React.createRef();
-    this.delGroup = React.createRef();
-    this.dropGroup = React.createRef();
   }
 
   componentDidMount() {}
 
-  handleCardDrop(){
-      alert("You dropped a card");
+  handleCardDropActive = (data) => {
+     this.props.StudentStore.setStudentStatus(data, "active");
+  }
+
+  handleCardDropDel = (data) => {
+    this.props.StudentStore.setStudentStatus(data, "delinquent");
+  }
+
+  handleCardDropDropped = (data) => {
+    this.props.StudentStore.setStudentStatus(data, "dropped");
   }
 
   render() {
     return (
       <Row>
         <Col>
-          <p>Active</p>
-
-          <Droppable accepts="card" onDrop={this.handleCardDrop}>
+          <Droppable accepts="card" onDrop={this.handleCardDropActive}>
             {DragState => (
-              <div ref={this.activeGroup} {...DragState.events}>
-                <StudentCard cid="1">Test 1</StudentCard>
-                <StudentCard cid="2">Test 2</StudentCard>
+              <div {...DragState.events} className={styles.dropZone}>
+                <h1>Active</h1>
+                <p>Drop card here</p>
               </div>
             )}
           </Droppable>
+          {this.props.StudentStore.activeStudents.map(function(student) {
+            return (
+              <StudentCard
+                cid={student._id}
+                key={student._id}
+                firstName={student.FirstName}
+                lastName={student.LastName}
+                studentId={student.StudentId}
+                phone={student.Phone}
+              ></StudentCard>
+            );
+          })}
         </Col>
         <Col>
-          <p>Delinquent</p>
-          <div ref={this.delGroup}>
-            <StudentCard cid="3">Test 3</StudentCard>
-          </div>
+          <Droppable accepts="card" onDrop={this.handleCardDropDel}>
+            {DragState => (
+              <div {...DragState.events} className={styles.dropZone}>
+                <h1>Delinquent</h1>
+                <p>Drop card here</p>
+              </div>
+            )}
+          </Droppable>
+          {this.props.StudentStore.delStudents.map(function(student) {
+            return (
+              <StudentCard
+                cid={student._id}
+                key={student._id}
+                firstName={student.FirstName}
+                lastName={student.LastName}
+                studentId={student.StudentId}
+                phone={student.Phone}
+              ></StudentCard>
+            );
+          })}
         </Col>
         <Col>
-          <p>Dropped</p>
-          <div ref={this.dropGroup}></div>
+          <Droppable accepts="card" onDrop={this.handleCardDropDropped}>
+            {DragState => (
+              <div {...DragState.events} className={styles.dropZone}>
+                <h1>Dropped</h1>
+                <p>Drop card here</p>
+              </div>
+            )}
+          </Droppable>
+          {this.props.StudentStore.dropStudents.map(function(student) {
+            return (
+              <StudentCard
+                cid={student._id}
+                key={student._id}
+                firstName={student.FirstName}
+                lastName={student.LastName}
+                studentId={student.StudentId}
+                phone={student.Phone}
+              ></StudentCard>
+            );
+          })}
         </Col>
       </Row>
     );

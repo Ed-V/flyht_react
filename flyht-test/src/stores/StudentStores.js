@@ -10,12 +10,19 @@ setStudents(value){
     this.students = value;
 }
 
+@action.bound
+setStudentStatus(id, value){
+    this.students.find(function(student) {
+        return student._id === id;
+    }).status[0] = value;
+
+}
+
 @computed get activeStudents(){
     let activeStudents = this.students.filter(function(student){
 
         return student.status[0] === "active";
     })
-
     return activeStudents;
 }
 
