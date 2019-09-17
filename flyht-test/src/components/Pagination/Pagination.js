@@ -34,7 +34,6 @@ function calcTotals(props) {
     result = 1;
   }
 
-result = 10;
 
   return result;
 }
