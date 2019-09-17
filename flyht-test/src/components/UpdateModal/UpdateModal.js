@@ -86,7 +86,7 @@ const updateModal = props => {
         <Button variant="secondary" onClick={props.hideHandler}>
           Close
         </Button>
-        <Button variant="primary">{props.buttonText}</Button>
+        <Button variant="primary" onClick={props.commitActionHandler}>{props.buttonText}</Button>
       </Modal.Footer>
     </Modal>
   );

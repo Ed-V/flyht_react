@@ -17,17 +17,28 @@ class StudentStore {
   }
 
   @action.bound
-  updateStudent(id, value){
+  addStudent(value) {
+    this.students.push({
+      StudentId: value.StudentId,
+      FirstName: value.FirstName,
+      LastName: value.LastName,
+      Phone: value.Phone,
+      status: value.status,
+      _id : value._id
+    });
+  }
+
+  @action.bound
+  updateStudent(id, value) {
     let toUpdate = this.students.find(function(student) {
-        return student._id === id;
-      });
+      return student._id === id;
+    });
 
-
-      toUpdate.StudentId = value.StudentId;
-      toUpdate.FirstName = value.FirstName;
-      toUpdate.LastName = value.LastName;
-      toUpdate.Phone = value.Phone;
-      toUpdate.status = value.status;
+    toUpdate.StudentId = value.StudentId;
+    toUpdate.FirstName = value.FirstName;
+    toUpdate.LastName = value.LastName;
+    toUpdate.Phone = value.Phone;
+    toUpdate.status = value.status;
   }
 
   student = computedFn(function getStudent(id) {

@@ -7,6 +7,7 @@ import Aux from "../../hoc/Auxiliary";
 import { inject, observer } from "mobx-react";
 import styles from "./DisplayListStyles.module.css";
 import UpdateModal from "../UpdateModal/UpdateModal";
+import Button from 'react-bootstrap/Button';
 
 @inject("StudentStore")
 @observer
@@ -16,6 +17,7 @@ class DisplayList extends React.Component {
 
     this.state = {
       showUpdateModal: false,
+      showCreateModel: false,
       updateFirstName: "",
       updateLastName: "",
       updateStudentId: 0,
@@ -35,12 +37,18 @@ class DisplayList extends React.Component {
   };
 
   handleSaveChange = () => {
-
-  }
+    this.props.updateStudent(this.state.updateDbId, {
+      status: this.state.updateStatus,
+      FirstName: this.state.updateFirstName,
+      LastName: this.state.updateLastName,
+      StudentId: this.state.updateStudentId,
+      Phone: this.state.updatePhone
+    });
+    this.handleHideUpdateModel();
+  };
 
   handleShowUpdateModel = userId => {
     let student = this.props.StudentStore.student(userId);
-    console.log(student);
     this.setState({
       updateFirstName: student.FirstName,
       updateLastName: student.LastName,
@@ -50,12 +58,46 @@ class DisplayList extends React.Component {
       updateDbId: student._id
     });
 
-
     this.setState({ showUpdateModal: true });
   };
 
   handleHideUpdateModel = () => {
     this.setState({ showUpdateModal: false });
+    this.setState({
+      updateFirstName: "",
+      updateLastName: "",
+      updateStudentId: 0,
+      updatePhone: 0,
+      updateStatus: "active",
+      updateDbId: ""
+    });
+  };
+
+  handleShowCreateModel = userId => {
+    this.setState({ showCreateModal: true });
+  };
+
+  handleHideCreateModel = () => {
+    this.setState({ showCreateModal: false });
+    this.setState({
+      updateFirstName: "",
+      updateLastName: "",
+      updateStudentId: 0,
+      updatePhone: 0,
+      updateStatus: "active",
+      updateDbId: ""
+    });
+  };
+
+  handleCreate = () => {
+    this.props.createStudent({
+      status: this.state.updateStatus,
+      FirstName: this.state.updateFirstName,
+      LastName: this.state.updateLastName,
+      StudentId: this.state.updateStudentId,
+      Phone: this.state.updatePhone
+    });
+    this.handleHideCreateModel();
   };
 
   handleCardDropActive = data => {
@@ -84,6 +126,20 @@ class DisplayList extends React.Component {
           phone={this.state.updatePhone}
           handleChange={this.handleInputChange}
           status={this.state.updateStatus}
+          commitActionHandler={this.handleSaveChange}
+        ></UpdateModal>
+        <UpdateModal
+          show={this.state.showCreateModal}
+          hideHandler={this.handleHideCreateModel}
+          title="Create Student"
+          buttonText="Create Student"
+          firstName={this.state.updateFirstName}
+          lastName={this.state.updateLastName}
+          studentId={this.state.updateStudentId}
+          phone={this.state.updatePhone}
+          handleChange={this.handleInputChange}
+          status={this.state.updateStatus}
+          commitActionHandler={this.handleCreate}
         ></UpdateModal>
         <Row>
           <Col>
@@ -156,6 +212,7 @@ class DisplayList extends React.Component {
             })}
           </Col>
         </Row>
+        <Button onClick={this.handleShowCreateModel}>Create Student</Button>
       </Aux>
     );
   }
