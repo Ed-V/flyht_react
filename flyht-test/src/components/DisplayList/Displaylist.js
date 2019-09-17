@@ -18,6 +18,7 @@ class DisplayList extends React.Component {
 
   handleCardDropActive = (data) => {
      this.props.StudentStore.setStudentStatus(data, "active");
+     this.props.updateStudent(data, {status: "active"})
   }
 
   handleCardDropDel = (data) => {
