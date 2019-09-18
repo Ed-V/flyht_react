@@ -18,6 +18,7 @@ class StudentManager extends React.Component {
     this.fetchStudents();
   }
 
+<<<<<<< Updated upstream
   updateStudent = (id, value) => {
     let reactThis = this;
     Axios.put("students/" + id, value)
@@ -41,6 +42,17 @@ class StudentManager extends React.Component {
         console.log(error);
       });
   };
+=======
+  updateStudent(id, value){
+    Axios.put("students/"+id, value)
+        .then(response => {
+        })
+        .catch(error => {
+          alert("An error occured, see console for more details");
+          console.log(error);
+        });
+  }
+>>>>>>> Stashed changes
 
   fetchStudents() {
     Axios.get("students", {
