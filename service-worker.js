@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/flyht_react/precache-manifest.350478d23f4777492cf90350498885f1.js"
+  "/flyht_react/precache-manifest.c27211eb8084d7498c04172d31696b9f.js"
 );
 
 self.addEventListener('message', (event) => {
