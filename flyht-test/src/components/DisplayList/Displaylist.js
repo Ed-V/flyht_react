@@ -8,6 +8,8 @@ import { inject, observer } from "mobx-react";
 import styles from "./DisplayListStyles.module.css";
 import UpdateModal from "../UpdateModal/UpdateModal";
 import Button from 'react-bootstrap/Button';
+import FormControl from 'react-bootstrap/FormControl'
+import InputGroup from 'react-bootstrap/InputGroup'
 
 @inject("StudentStore")
 @observer
@@ -219,6 +221,20 @@ class DisplayList extends React.Component {
             })}
           </Col>
         </Row>
+        <InputGroup className="mb-3">
+            <InputGroup.Prepend>
+              <InputGroup.Text id="studentLimit">Limit(Press Enter)</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              placeholder="limit"
+              aria-label="limit"
+              aria-describedby="limit"
+              value={this.props.limit}
+              onChange={this.props.handleLimitChange}
+              onKeyPress={this.props.handleLimitEnter}
+              name="limit"
+            />
+          </InputGroup>
         <Button onClick={this.handleShowCreateModel}>Create Student</Button>
       </Aux>
     );
