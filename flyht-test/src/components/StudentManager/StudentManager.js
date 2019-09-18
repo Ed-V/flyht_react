@@ -91,7 +91,7 @@ class StudentManager extends React.Component {
         this.props.StudentStore.resetStudents();
         this.props.StudentStore.setStudents(response.data.data);
         this.setState({ selectedPage: selectPage });
-        this.setState({ studentTotal: response.data.totals.count });
+        this.setState({ studentTotal: response.data.totals.total });
         this.calcPaginationPages();
         this.setState({loadingMessage: false});
       })
