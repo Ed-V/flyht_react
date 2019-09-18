@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/flyht_react/static/css/main.885b7add.chunk.css",
+    "main.js": "/flyht_react/static/js/main.7c5cada8.chunk.js",
+    "main.js.map": "/flyht_react/static/js/main.7c5cada8.chunk.js.map",
+    "runtime~main.js": "/flyht_react/static/js/runtime~main.4741af21.js",
+    "runtime~main.js.map": "/flyht_react/static/js/runtime~main.4741af21.js.map",
+    "static/js/2.3c067411.chunk.js": "/flyht_react/static/js/2.3c067411.chunk.js",
+    "static/js/2.3c067411.chunk.js.map": "/flyht_react/static/js/2.3c067411.chunk.js.map",
+    "index.html": "/flyht_react/index.html",
+    "precache-manifest.350478d23f4777492cf90350498885f1.js": "/flyht_react/precache-manifest.350478d23f4777492cf90350498885f1.js",
+    "service-worker.js": "/flyht_react/service-worker.js",
+    "static/css/main.885b7add.chunk.css.map": "/flyht_react/static/css/main.885b7add.chunk.css.map"
+  }
+}
