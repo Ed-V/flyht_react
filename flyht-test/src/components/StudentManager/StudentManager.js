@@ -10,7 +10,7 @@ import { inject, observer } from "mobx-react";
 class StudentManager extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { studentTotal: 0, limit: 10, selectedButton: 1 };
+    this.state = { studentTotal: 0, limit: 10, selectedButton: 1, calcTotals: 1 };
   }
 
   componentDidMount() {
@@ -18,6 +18,7 @@ class StudentManager extends React.Component {
     this.fetchStudents();
   }
 
+<<<<<<< Updated upstream
   updateStudent(id, value){
     Axios.put("students/"+id, value)
         .then(response => {
@@ -27,6 +28,43 @@ class StudentManager extends React.Component {
           console.log(error);
         });
   }
+=======
+  calcPaginationTotals() {
+    let result = Math.ceil(this.state.studentTotal / this.state.limit);
+  
+    if (result === 0) {
+      result = 1;
+    }
+  
+    result = 10;
+  
+    this.setState({calcTotals: result})
+  }
+
+  updateStudent = (id, value) => {
+    let reactThis = this;
+    Axios.put("students/" + id, value)
+      .then(response => {
+        reactThis.props.StudentStore.updateStudent(id, response.data);
+      })
+      .catch(error => {
+        alert("An error occured, see console for more details");
+        console.log(error);
+      });
+  };
+
+  createStudent = value => {
+    let reactThis = this;
+    Axios.post("students", value)
+      .then(response => {
+        reactThis.props.StudentStore.addStudent(response.data);
+      })
+      .catch(error => {
+        alert("An error occured, see console for more details");
+        console.log(error);
+      });
+  };
+>>>>>>> Stashed changes
 
   fetchStudents() {
     Axios.get("students", {
@@ -43,10 +81,12 @@ class StudentManager extends React.Component {
       });
   }
 
-  fetchTotalStudents() {
+  fetchTotalStudents = () => {
+      let reactThis = this;
     Axios.get("students?totals=true&count=true")
       .then(response => {
         this.setState({ studentTotal: response.data.totals.count });
+        this.calcPaginationTotals();
       })
       .catch(error => {
         alert("An error occured, see console for more details");
@@ -56,7 +96,6 @@ class StudentManager extends React.Component {
 
   paginationButtonClickHandler = event => {
     let buttonIndex = event.target.dataset.bindex;
-    //console.log(this);
     this.setState({ selectedButton: buttonIndex });
   };
 
@@ -67,10 +106,9 @@ class StudentManager extends React.Component {
       <Container>
         <DisplayList updateStudent={this.updateStudent}></DisplayList>
         <Pagination
-          studentTotal={this.state.studentTotal}
-          limit={this.state.limit}
           selectedButton={this.state.selectedButton}
           paginationButtonClickHandler={this.paginationButtonClickHandler}
+          calcTotals={this.state.calcTotals}
         ></Pagination>
       </Container>
     );
