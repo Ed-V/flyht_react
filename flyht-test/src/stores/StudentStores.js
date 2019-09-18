@@ -4,6 +4,11 @@ import { computedFn } from "mobx-utils";
 class StudentStore {
   @observable students = [];
 
+@action.bound
+resetStudents(){
+    this.students.splice(0, this.students.length);
+}
+
   @action.bound
   setStudents(value) {
     this.students = value;

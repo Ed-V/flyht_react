@@ -13,12 +13,13 @@ class StudentManager extends React.Component {
     this.state = {
       studentTotal: 0,
       limit: 10,
-      pageCount: 1
+      pageCount: 1,
+      selectedPage: 0,
+      initialPage: 0
     };
   }
 
   componentDidMount() {
-    this.fetchTotalStudents();
     this.fetchStudents();
   }
 
@@ -58,15 +59,32 @@ class StudentManager extends React.Component {
       });
   };
 
-  fetchStudents() {
+
+deleteStudent = (id) => {
+    Axios.delete("students/" + id)
+      .then(response => {
+        this.fetchStudents();
+      })
+      .catch(error => {
+        alert("An error occured, see console for more details");
+        console.log(error);
+      });
+}
+
+  fetchStudents = (selectPage) => {
     Axios.get("students", {
       params: {
         max: this.state.limit,
-        skip: this.state.limit * this.state.selectedButton - 10
+        skip: this.state.limit * selectPage,
+        totals: true
       }
     })
       .then(response => {
-        this.props.StudentStore.setStudents(response.data);
+        this.props.StudentStore.resetStudents();
+        this.props.StudentStore.setStudents(response.data.data);
+        this.setState({ selectedPage: selectPage });
+        this.setState({ studentTotal: response.data.totals.count });
+        this.calcPaginationPages();
       })
       .catch(error => {
         alert("An error occured, see console for more details");
@@ -77,6 +95,7 @@ class StudentManager extends React.Component {
   fetchTotalStudents = () => {
     Axios.get("students?totals=true&count=true")
       .then(response => {
+
         this.setState({ studentTotal: response.data.totals.count });
         this.calcPaginationPages();
       })
@@ -87,7 +106,7 @@ class StudentManager extends React.Component {
   };
 
   paginationClickHandler = event => {
-    console.log(event);
+    this.fetchStudents(event.selected);
   };
 
   render() {
@@ -98,6 +117,7 @@ class StudentManager extends React.Component {
         <DisplayList
           updateStudent={this.updateStudent}
           createStudent={this.createStudent}
+          deleteStudent={this.deleteStudent}
         ></DisplayList>
         <nav className="page">
           <Pagination
@@ -114,8 +134,8 @@ class StudentManager extends React.Component {
             pageLinkClassName={"page-link"}
             previousLinkClassName={"page-link"}
             nextLinkClassName={"page-link"}
-            initialPage={1}
-            onPageChange={this.paginationButtonHandler}
+            initialPage={this.state.initialPage}
+            onPageChange={this.paginationClickHandler}
           ></Pagination>
         </nav>
       </Container>
