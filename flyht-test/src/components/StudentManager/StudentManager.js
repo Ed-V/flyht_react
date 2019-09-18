@@ -33,8 +33,7 @@ class StudentManager extends React.Component {
       result = 1;
     }
 
-    result = 10;
-
+ 
     this.setState({ pageCount: result });
   }
 
