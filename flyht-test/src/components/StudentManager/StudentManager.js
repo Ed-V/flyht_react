@@ -4,7 +4,7 @@ import Pagination from "react-paginate";
 import DisplayList from "../DisplayList/Displaylist";
 import Container from "react-bootstrap/Container";
 import { inject, observer } from "mobx-react";
-import Alert from 'react-bootstrap/Alert'
+import Alert from "react-bootstrap/Alert";
 
 @inject("StudentStore")
 @observer
@@ -33,53 +33,54 @@ class StudentManager extends React.Component {
       result = 1;
     }
 
- 
     this.setState({ pageCount: result });
   }
 
   updateStudent = (id, value) => {
-    this.setState({loadingMessage: true});
+    this.setState({ loadingMessage: true });
     let reactThis = this;
     Axios.put("students/" + id, value)
       .then(response => {
         reactThis.props.StudentStore.updateStudent(id, response.data);
-        this.setState({loadingMessage: false});
+        this.setState({ loadingMessage: false });
       })
       .catch(error => {
-        this.setState({errorMessage: true});
+        this.setState({ errorMessage: true });
         console.log(error);
       });
   };
 
   createStudent = value => {
-    this.setState({loadingMessage: true});
+    this.setState({ loadingMessage: true });
     let reactThis = this;
     Axios.post("students", value)
       .then(response => {
-        reactThis.props.StudentStore.addStudent(response.data);
-        this.setState({loadingMessage: false});
+        if (this.props.StudentStore.students.length < 10) {
+          reactThis.props.StudentStore.addStudent(response.data);
+        }
+        this.setState({ loadingMessage: false });
       })
       .catch(error => {
-        this.setState({errorMessage: true});
+        this.setState({ errorMessage: true });
         console.log(error);
       });
   };
 
   deleteStudent = id => {
-    this.setState({loadingMessage: true});
+    this.setState({ loadingMessage: true });
     Axios.delete("students/" + id)
       .then(response => {
         this.fetchStudents();
-        this.setState({loadingMessage: false});
+        this.setState({ loadingMessage: false });
       })
       .catch(error => {
-        this.setState({errorMessage: true});
+        this.setState({ errorMessage: true });
         console.log(error);
       });
   };
 
   fetchStudents = selectPage => {
-    this.setState({loadingMessage: true});
+    this.setState({ loadingMessage: true });
     Axios.get("students", {
       params: {
         max: this.state.limit,
@@ -93,14 +94,13 @@ class StudentManager extends React.Component {
         this.setState({ selectedPage: selectPage });
         this.setState({ studentTotal: response.data.totals.total });
         this.calcPaginationPages();
-        this.setState({loadingMessage: false});
+        this.setState({ loadingMessage: false });
       })
       .catch(error => {
-        this.setState({errorMessage: true});
+        this.setState({ errorMessage: true });
         console.log(error);
       });
   };
-
 
   paginationClickHandler = event => {
     this.fetchStudents(event.selected);
