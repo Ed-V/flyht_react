@@ -10,7 +10,7 @@ import { inject, observer } from "mobx-react";
 class StudentManager extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { studentTotal: 0, limit: 10, selectedButton: 1, calcTotals: 1 };
+    this.state = { studentTotal: 0, limit: 10, selectedButton: 1 };
   }
 
   componentDidMount() {
@@ -19,28 +19,6 @@ class StudentManager extends React.Component {
   }
 
 <<<<<<< Updated upstream
-  updateStudent(id, value){
-    Axios.put("students/"+id, value)
-        .then(response => {
-        })
-        .catch(error => {
-          alert("An error occured, see console for more details");
-          console.log(error);
-        });
-  }
-=======
-  calcPaginationTotals() {
-    let result = Math.ceil(this.state.studentTotal / this.state.limit);
-  
-    if (result === 0) {
-      result = 1;
-    }
-  
-    result = 10;
-  
-    this.setState({calcTotals: result})
-  }
-
   updateStudent = (id, value) => {
     let reactThis = this;
     Axios.put("students/" + id, value)
@@ -69,7 +47,8 @@ class StudentManager extends React.Component {
   fetchStudents() {
     Axios.get("students", {
       params: {
-        max: this.state.limit
+        max: this.state.limit,
+        skip: (this.state.limit * this.state.selectedButton) - 10
       }
     })
       .then(response => {
@@ -104,7 +83,7 @@ class StudentManager extends React.Component {
 
     return (
       <Container>
-        <DisplayList updateStudent={this.updateStudent}></DisplayList>
+        <DisplayList updateStudent={this.updateStudent} createStudent={this.createStudent}></DisplayList>
         <Pagination
           selectedButton={this.state.selectedButton}
           paginationButtonClickHandler={this.paginationButtonClickHandler}
