@@ -12,6 +12,10 @@ const handleShowUpdate = () => {
     props.showUpdateModal(props.cid)
 }
 
+const handleDelete = () => {
+    props.handleDelete(props.cid);
+}
+
   return (
     <Aux>
       <Draggable id={props.cid} type="card" data={props.cid}>
@@ -45,7 +49,7 @@ const handleShowUpdate = () => {
                     {props.phone}
                   </Card.Text>
                   <Button variant="success" onClick={handleShowUpdate}>Edit</Button>
-                  <Button variant="danger">Delete</Button>
+                  <Button variant="danger" onClick={handleDelete}>Delete</Button>
                 </Card.Body>
               </Card>
             )}

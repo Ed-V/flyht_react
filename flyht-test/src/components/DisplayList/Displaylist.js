@@ -112,6 +112,10 @@ class DisplayList extends React.Component {
     this.props.updateStudent(data, { status: "dropped" });
   };
 
+ handleDelete = studentId => {
+     this.props.deleteStudent(studentId);
+ }
+
   render() {
     return (
       <Aux>
@@ -161,6 +165,7 @@ class DisplayList extends React.Component {
                   studentId={student.StudentId}
                   phone={student.Phone}
                   showUpdateModal={this.handleShowUpdateModel}
+                  handleDelete={this.handleDelete}
                 ></StudentCard>
               );
             })}
@@ -184,6 +189,7 @@ class DisplayList extends React.Component {
                   studentId={student.StudentId}
                   phone={student.Phone}
                   showUpdateModal={this.handleShowUpdateModel}
+                  handleDelete={this.handleDelete}
                 ></StudentCard>
               );
             })}
@@ -207,6 +213,7 @@ class DisplayList extends React.Component {
                   studentId={student.StudentId}
                   phone={student.Phone}
                   showUpdateModal={this.handleShowUpdateModel}
+                  handleDelete={this.handleDelete}
                 ></StudentCard>
               );
             })}
