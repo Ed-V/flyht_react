@@ -1,26 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import StudentManager from "./components/StudentManager/StudentManager";
+import { Provider } from "mobx-react";
+import StudentStore from './stores/StudentStores'
+
+const Root = (
+  <Provider StudentStore={StudentStore}>
+    <div className="App">
+      <StudentManager></StudentManager>
+    </div>
+  </Provider>
+);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return Root;
 }
 
 export default App;
